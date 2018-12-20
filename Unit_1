@@ -1,0 +1,85 @@
+//#include"stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+
+//#pragma warning(disable:4996)
+
+typedef int Elemtype;
+typedef Elemtype *Triplet;
+
+#define OK 1
+#define ERROR 0
+#define OVERFLOW 0
+typedef int Status;
+
+//InitTriplet
+Status InitTriplet(Triplet &T, Elemtype v1, Elemtype v2, Elemtype v3) {
+	int i = 0;
+	T = (Elemtype*)malloc(3 * sizeof(Elemtype));
+	if (!T)
+		return OVERFLOW;
+	T[0] = v1;
+	T[1] = v2;
+	T[2] = v3;
+	return OK;
+}
+
+//DestoryTriplet
+Status DestoryTriplet(Triplet &T) {
+	if (T)
+		free(T);
+	return OK;
+}
+
+//Get
+Status Get(Triplet &T, int i, Elemtype e) {
+	if (i >= 1 && i <= 3)
+		e = T[i - 1];
+	return ERROR;
+}
+
+//Put
+Status Put(Triplet &T, int i, Elemtype e) {
+	if (i >= 1 && i <= 3) {
+		T[i - 1] = e;
+		return OK;
+	}
+	return ERROR;
+}
+
+//IsAscending判断是否为升序
+Status IsAscending(Triplet &T) {
+	if (T[2] >= T[1] && T[1] >= T[0])//这儿为&而不是&&
+		return OK;
+	return ERROR;
+}
+
+//IsDescending判断是否为降序
+Status IsDescending(Triplet &T) {
+	if (T[2] <= T[1] && T[1] <= T[0])//这儿为&而不是&&
+		return OK;
+	return ERROR;
+}
+
+//Max
+Status Max(Triplet &T) {
+	return (T[0] > T[1]) ? (T[0] > T[2] ? T[0] : T[2]) : (T[1] > T[2] ? T[1] : T[2]);
+}
+
+//Min
+Status Min(Triplet &T) {
+	return (T[0] < T[1]) ? (T[0] < T[2] ? T[0] : T[2]) : (T[1] < T[2] ? T[1] : T[2]);
+}
+
+
+int main() {
+	Triplet T;
+	//使用函数
+	InitTriplet(T, 4, 2, 5);
+	printf("%d\n", Min(T));
+	printf("%d\n", Max(T));
+	return 0;
+}
+
+
